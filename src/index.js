@@ -1,6 +1,7 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce';
 // import Notiflix from 'notiflix';
+import { fetchCountries } from './fetchCountries';
 
 const DEBOUNCE_DELAY = 300;
 
@@ -9,10 +10,6 @@ const refs = {
   countryList: document.querySelector('.country-list'),
   countryInfo: document.querySelector('.country-info'),
 };
-
-// console.log(refs.inputField);
-// console.log(refs.countryList);
-// console.log(refs.countryInfo);
 
 refs.inputField.addEventListener(
   'input',
@@ -30,24 +27,17 @@ function inputCountryName(e) {
     .catch(error => console.log(error));
 }
 
-function fetchCountries(countryName) {
-  return fetch(
-    'https://restcountries.com/v2/name/sw?fields=name,capital,population,flags,languages'
-    // 'https://restcountries.com/v2/name/${countryName}'
-  ).then(response => {
-    return response.json();
-  });
-}
-
 function renderCountryList(countries) {
+  console.log(countries);
   const markup = countries
     .map(country => {
+      console.log(Object.values(country.languages));
       return `<li>
           <img src="${country.flags.svg}" alt="${country.name}" width="50">
           <p><b>Country</b>: ${country.name}</p>
           <p><b>Capital</b>: ${country.capital}</p>
           <p><b>Population</b>: ${country.population}</p>
-          <p><b>Languages</b>: ${country.languages[0].name}</p>
+          <p><b>Languages</b>: ${Object.values(country.languages)}</p>
         </li>`;
     })
     .join('');
