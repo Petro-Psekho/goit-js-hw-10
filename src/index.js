@@ -20,48 +20,80 @@ function inputCountryName(e) {
   e.preventDefault();
 
   const countryName = refs.inputField.value.trim();
-  // console.log(countryName);
 
   if (countryName === '') {
-    return (refs.countryList.innerHTML = ''), (refs.countryInfo.innerHTML = ''); // condition to clear the input field and/or remove the created markup
+    return (refs.countryList.innerHTML = ''), (refs.countryInfo.innerHTML = '');
   }
 
-  fetchCountries(countryName).then(renderCountryInfo).catch(wrongCountryName);
+  fetchCountries(countryName)
+    .then(rendersMarkup)
+    .catch(error => {
+      console.log(error);
+    });
 }
 
-function renderCountryInfo(countries) {
-  // console.log(countries);
-  const markup = countries
-    .map(country => {
-      const languages = country.languages.map(lang => {
-        return lang.name;
-      });
-      // console.log(languages);
+function rendersMarkup(countries) {
+  refs.countryList.innerHTML = '';
+  refs.countryInfo.innerHTML = '';
 
-      return `<li>
+  if (countries.length > 10) {
+    return tooManyCountries();
+  } else if (countries.length === undefined) {
+    return wrongCountryName();
+  } else if (countries.length > 1 && countries.length <= 10) {
+    const markup = countries
+      .map(country => {
+        return `<li>
+          <img src="${country.flags.svg}" alt="${country.name}" width="50">
+          <p>${country.name}</p>
+        </li>`;
+      })
+      .join('');
+    refs.countryList.innerHTML = markup;
+  } else if (countries.length === 1) {
+    const markup = countries
+      .map(country => {
+        const languages = country.languages.map(lang => {
+          return lang.name;
+        });
+        return `<li>
           <img src="${country.flags.svg}" alt="${country.name}" width="50">
           <p>${country.name}</p>
           <p><b>Capital</b>: ${country.capital}</p>
           <p><b>Population</b>: ${country.population}</p>
           <p><b>Languages</b>: ${languages}</p>
         </li>`;
-    })
-    .join('');
-  refs.countryInfo.innerHTML = markup;
+      })
+      .join('');
+    refs.countryInfo.innerHTML = markup;
+  }
 }
 
-function renderCountryList(countries) {
-  const markup = countries
-    .map(country => {
-      return `<li>
-          <img src="${country.flags.svg}" alt="${country.name}" width="50">
-          <p>${country.name}</p>
-        </li>`;
-    })
-    .join('');
-  refs.countryList.innerHTML = markup;
-}
+// function wrongCountryName() {
+//   Notiflix.Notify.failure('Oops, there is no country with that name');
+//   refs.inputField.value = '';
+// }
+
+// function tooManyCountries() {
+//   Notiflix.Notify.info(
+//     'Too many matches found. Please enter a more specific name'
+//   );
+//   refs.inputField.value = '';
 
 function wrongCountryName() {
-  Notiflix.Notify.failure('Oops, there is no country with that name');
+  Notiflix.Report.failure(
+    'Oops',
+    '"There is no country with that name" ',
+    'Okay'
+  );
+  refs.inputField.value = '';
+}
+
+function tooManyCountries() {
+  Notiflix.Report.info(
+    'Too many matches found',
+    '"Please enter a more specific name" ',
+    'Okay'
+  );
+  // refs.inputField.value = '';
 }
