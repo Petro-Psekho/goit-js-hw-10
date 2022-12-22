@@ -1,7 +1,7 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce';
 // import Notiflix from 'notiflix';
-import { fetchCountries } from './fetchCountries';
+import { fetchCountries } from './js/fetchCountries';
 
 const DEBOUNCE_DELAY = 300;
 
@@ -28,16 +28,20 @@ function inputCountryName(e) {
 }
 
 function renderCountryList(countries) {
-  console.log(countries);
+  // console.log(countries);
   const markup = countries
     .map(country => {
-      console.log(Object.values(country.languages));
+      const languages = country.languages.map(lang => {
+        return lang.name;
+      });
+      // console.log(languages);
+
       return `<li>
           <img src="${country.flags.svg}" alt="${country.name}" width="50">
           <p><b>Country</b>: ${country.name}</p>
           <p><b>Capital</b>: ${country.capital}</p>
           <p><b>Population</b>: ${country.population}</p>
-          <p><b>Languages</b>: ${Object.values(country.languages)}</p>
+          <p><b>Languages</b>: ${languages}</p>
         </li>`;
     })
     .join('');
