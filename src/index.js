@@ -22,6 +22,10 @@ function inputCountryName(e) {
   const countryName = refs.inputField.value.trim();
   // console.log(countryName);
 
+  if (countryName === '') {
+    return (refs.countryList.innerHTML = ''), (refs.countryInfo.innerHTML = '');
+  }
+
   fetchCountries(countryName)
     .then(renderCountryList)
     .catch(error => console.log(error));
