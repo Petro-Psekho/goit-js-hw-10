@@ -43,7 +43,7 @@ function rendersMarkup(countries) {
   } else if (countries.length > 1 && countries.length <= 10) {
     const markup = countries
       .map(country => {
-        return `<li>
+        return `<li class="country-list__item" >
           <img src="${country.flags.svg}" alt="${country.name}" width="50">
           <p>${country.name}</p>
         </li>`;
