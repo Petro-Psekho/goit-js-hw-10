@@ -56,9 +56,11 @@ function rendersMarkup(countries) {
         const languages = country.languages.map(lang => {
           return lang.name;
         });
-        return `<li>
-          <img src="${country.flags.svg}" alt="${country.name}" width="50">
-          <p>${country.name}</p>
+        return `<li class="country-info__item" >
+          <div class="country-info__header">
+            <img class="country-info__img" src="${country.flags.svg}" alt="${country.name}">
+            <p>${country.name}</p>
+          </div>
           <p><b>Capital</b>: ${country.capital}</p>
           <p><b>Population</b>: ${country.population}</p>
           <p><b>Languages</b>: ${languages}</p>
