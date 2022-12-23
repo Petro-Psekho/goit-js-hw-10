@@ -61,9 +61,9 @@ function rendersMarkup(countries) {
             <img class="country-info__img" src="${country.flags.svg}" alt="${country.name}">
             <p>${country.name}</p>
           </div>
-          <p><b>Capital</b>: ${country.capital}</p>
-          <p><b>Population</b>: ${country.population}</p>
-          <p><b>Languages</b>: ${languages}</p>
+          <p><b>Capital:</b> ${country.capital}</p>
+          <p><b>Population:</b> ${country.population}</p>
+          <p><b>Languages:</b> ${languages}</p>
         </li>`;
       })
       .join('');
